@@ -8,20 +8,54 @@ public class Main {
 
         System.out.println("Welcome to my territory builder game!");
 
-        // Asking user to input territory name
-        System.out.println("Please enter the name of your territory: ");
+        // Declare territory here so it's visible everywhere in main()
+        Territory territory = null;
 
-        // Save the user input as territory name as a variable
-        String territoryName = scanner.nextLine();
-
-        // Create a new territory using the saved name
-        Territory territory = new Territory(territoryName);
-
-        // Initially set running boolean to true to the menu loop runs
+        // Initially set running boolean to true so the create a territory loop runs
         boolean running = true;
 
-        // Menu loop
+        // Creating the territory loop
         while (running) {
+            // Asking user to input territory name
+            System.out.println("Please enter the name of your territory: ");
+
+            // Save the user input as territory name as a variable
+            String territoryName = scanner.nextLine().toLowerCase();
+            String capitalisedTerritoryName = territoryName.substring(0, 1).toUpperCase() + territoryName.substring(1);
+
+            // Asking user to input territory type
+            System.out.println("Please enter the type of your territory you want to create (kingdom/dynasty): ");
+
+            // Save the user input as territory name as a variable
+            String territoryType = scanner.nextLine();
+            String capitalisedTerritoryType = territoryType.substring(0, 1).toUpperCase() + territoryType.substring(1);
+
+            // Switch statement to create a new territory based on territory type
+            territory = switch (territoryType) {
+                case "kingdom" -> new Kingdom(territoryName);
+                case "dynasty" -> new Dynasty(territoryName);
+                default -> null;
+            };
+
+            // IF/ELSE statement to check if user has entered a valid territory type
+            if (territory != null) {
+                // Print message to inform the user that their building has been added
+                System.out.println(String.format("%s (%s) has been created!",
+                    capitalisedTerritoryName,
+                    capitalisedTerritoryType
+                ));
+                // Reassign the running boolean to false to end the loop
+                running = false;                        
+            } else {
+                System.out.println("You have entered an invalid territory type.");
+            }
+        }   
+
+        // Initially set running boolean to true so the menu loop runs
+        boolean runningMenu = true;
+
+        // Menu loop
+        while (runningMenu) {
             // Print menu options
             System.out.println("\n--- Menu ---");
             System.out.println("1. Add Building");
@@ -52,12 +86,14 @@ public class Main {
 
                     // Save building type inputted as a variable
                     String buildingType = scanner.nextLine().toLowerCase();
+                    String capitalisedBuildingType = buildingType.substring(0, 1).toUpperCase() + buildingType.substring(1);
 
                     // Ask user to input building name
                     System.out.print("Please enter the building name: ");
 
                     // Save building name inputted as a variable
                     String buildingName = scanner.nextLine().toLowerCase();
+                    String capitalisedBuildingName = buildingName.substring(0, 1).toUpperCase() + buildingName.substring(1);
 
                     // Switch statement to create a new building based on building type
                     Building building = switch (buildingType) {
@@ -67,12 +103,15 @@ public class Main {
                         default -> null;
                     };
 
-                    // IF statement to check if user has entered a valid building type
+                    // IF/ELSE statement to check if user has entered a valid building type
                     if (building != null) {
                         // Call addBuilding function from the territory class
                         territory.addBuilding(building);
                         // Print message to inform the user that their building has been added
-                        System.out.println(buildingName + " has been added!");                        
+                        System.out.println(String.format("%s (%s) has been added!",
+                            capitalisedBuildingName,
+                            capitalisedBuildingType
+                        ));                        
                     } else {
                         System.out.println("You have entered an invalid building type.");
                     }
@@ -85,12 +124,14 @@ public class Main {
 
                     // Save villager type inputted as a variable
                     String villagerType = scanner.nextLine().toLowerCase();
+                    String capitalisedVillagerType = villagerType.substring(0, 1).toUpperCase() + villagerType.substring(1);
 
                     // Ask user to input villager name
                     System.out.print("Please enter the villager name: ");
 
                     // Save villager name inputted as a variable
                     String villagerName = scanner.nextLine().toLowerCase();
+                    String capitalisedVillagerName = villagerName.substring(0, 1).toUpperCase() + villagerName.substring(1);
 
                     // Switch statement to create a new villager based on building type
                     Villager villager = switch (villagerType) {
@@ -100,12 +141,22 @@ public class Main {
                         default -> null;
                     };
 
-                    // IF statement to check if user has entered a valid villager type
+                    // IF/ELSE statement to check if user has entered a valid villager type
                     if (villager != null) {
                         // Call addVillager function from the territory class
                         territory.addVillager(villager);
                         // Print message to inform the user that their villager has been added
-                        System.out.println(villagerName + " has been added!");                        
+                        // IF/ELSE statement to print a different message depending on the type of villager
+                        if (villagerType.equals("knight")) {
+                            System.out.println(String.format("%s (Knight) [HP: 100, STA: 75, STR: 50, DEF: 25] has been added!",
+                                capitalisedVillagerName
+                            ));
+                        } else {
+                            System.out.println(String.format("%s (%s) has been added!",
+                                capitalisedVillagerName,
+                                capitalisedVillagerType
+                            )); 
+                        }                                               
                     } else {
                         // Print message to user to explain their error
                         System.out.println("You have entered an invalid villager type.");
@@ -127,9 +178,9 @@ public class Main {
                 // Code block executed when user selects option 5
                 case 5:
                     // Return message to user that the game has ended and thank them for playing
-                    System.out.println("You have chosen to end the game, thank you for playing!");
+                    System.out.println("You have chosen to end the game, thank you for playing, see you next time!");
                     // Reassign the running boolean to false to end the loop
-                    running = false;
+                    runningMenu = false;
                     break;
                 
                 // Code block executed when user enters an input that is not in the menu list

@@ -26,10 +26,12 @@ public class Knight extends Villager {
     @Override
     // Function to print a knights attributes as a string
     public String toString() {
-        return super.getName() + " [Knight] " +
-            "(HP: " + health +
-            ", STA: " + stamina +
-            ", STR: " + strength +
-            ", DEF: " + defense + ")";
+        return String.format("%s (Knight) [HP: %s, STA: %s, STR: %s, DEF: %s]",
+            super.getName(),
+            health,
+            stamina,
+            strength,
+            defense
+        );
     }
 }

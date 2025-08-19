@@ -4,13 +4,26 @@ import java.util.*;
 // Creating Territory class
 public class Territory {
     private String name;
+    private String type;
     private List<Building> buildings = new ArrayList<>();
     private List<Villager> villagers = new ArrayList<>();
 
-    public Territory(String name) {
+    public Territory(String name, String type) {
         this.name = name;
+        this.type = type;
     }
 
+    // Function to return the name of a territory
+    public String getName() {
+        String capitalisedName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return capitalisedName;
+    }
+
+    // Function to return the type of a territory
+    public String getType() {
+        String capitalisedType = type.substring(0, 1).toUpperCase() + type.substring(1);
+        return capitalisedType;
+    }
     // Function to add a building to a territory
     public void addBuilding(Building building) {
         buildings.add(building);
@@ -48,7 +61,20 @@ public class Territory {
         System.out.println("\nAvailable Villagers: ");
         // For loop to print all available villagers
         for (int i = 0; i < unassignedVillagers.size(); i++) {
-            System.out.println((i + 1) + ". " + unassignedVillagers.get(i).getName() + " (" + unassignedVillagers.get(i).getType() + ")");
+            // IF/ELSE statement to print a different message depending on the type of villager 
+            if (unassignedVillagers.get(i).getType().equals("knight")) {
+                System.out.println(String.format("%d. %s",
+                    i + 1,
+                    unassignedVillagers.get(i).toString()
+                ));
+            } else {
+                System.out.println(String.format("%d. %s (%s)",
+                    i + 1, 
+                    unassignedVillagers.get(i).getName(),
+                    unassignedVillagers.get(i).getType()
+                ));
+            }
+            
         }
 
         System.out.print("Choose villager number: ");
@@ -70,7 +96,11 @@ public class Territory {
         System.out.println("\nAvailable Buildings: ");
         // For loop to print all available buildings
         for (int i = 0; i < buildings.size(); i++) {
-            System.out.println((i + 1) + ". " + buildings.get(i).getName());
+            System.out.println(String.format("%d. %s (%s)",
+                i + 1,
+                buildings.get(i).getName(),
+                buildings.get(i).getType()
+            ));
         }
 
         System.out.print("Choose building number: ");
@@ -100,7 +130,10 @@ public class Territory {
         chosenBuilding.assignVillager(chosenVillager);
 
         // Print message to user informing them that the villager is assigned to the building
-        System.out.println(chosenVillager.getName() + " has been assigned to " + chosenBuilding.getName());
+        System.out.println(String.format("%s has been assigned to %s",
+            chosenVillager.getName(),
+            chosenBuilding.getName()
+        ));
     }
 
     // Function to print territory structure
@@ -108,14 +141,31 @@ public class Territory {
         // Print title
         System.out.println("\n--- Territory Structure ---");
         // Print territory name
-        System.out.println("Territory: " + name);
+        System.out.println(String.format("Territory: %s (%s)",
+            getName(),
+            getType()
+        ));
 
         // For loop printing buildings within the territory
         for (Building b : buildings) {
-            System.out.println("  Building: " + b.getName());
+            System.out.println(String.format("  Building: %s (%s)",
+                b.getName(),
+                b.getType()
+            ));
             // For loop printing villagers within the building
             for (Villager v : b.getAssignedVillagers()) {
-                System.out.println("    Villager: " + v.getName() + " (" + v.getType() + ")");
+                // IF/ELSE statement to print a different message depending on the type of villager
+                if (v.getType().equals("knight")) {
+                    System.out.println(String.format("    Villager: %s",
+                        v.toString()
+                    ));
+                } else {
+                    System.out.println(String.format("    Villager: %s (%s)",
+                        v.getName(),
+                        v.getType()
+                    ));
+                }
+                
             }
         }
     }

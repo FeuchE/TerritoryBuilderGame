@@ -5,6 +5,6 @@ public class Forge extends Building {
 
     // Function to assign the name of a forge
     public Forge(String name) {
-        super(name);
+        super(name, "forge");
     }
 }
