@@ -14,12 +14,14 @@ public abstract class Villager {
 
     // Function to return the name of a villager
     public String getName() {
-        return name;
+        String capitalisedName = name.substring(0, 1).toUpperCase() + name.substring(1);
+        return capitalisedName;
     }
 
     // Function to return the type of a villager
     public String getType() {
-        return type;
+        String capitalisedType = type.substring(0, 1).toUpperCase() + type.substring(1);
+        return capitalisedType;
     }
 
     // Function to check if a villager is currently assigned to a building

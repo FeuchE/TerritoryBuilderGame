@@ -5,6 +5,6 @@ public class Farm extends Building {
 
     // Function to assign the name of a farm
     public Farm(String name) {
-        super(name);
+        super(name, "farm");
     }
 }

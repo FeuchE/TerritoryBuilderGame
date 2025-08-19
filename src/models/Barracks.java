@@ -5,6 +5,6 @@ public class Barracks extends Building {
 
     // Function to assign the name of a barrack
     public Barracks(String name) {
-        super(name);
+        super(name, "barracks");
     }
 }
