@@ -31,6 +31,13 @@ public abstract class Building {
         villager.setAssigned(true);
     }
 
+    // Function to unassign a villager from a building
+    public void unassignVillager(Villager villager) {
+        if (assignedVillagers.remove(villager)) {
+            villager.setAssigned(true);
+        }        
+    }
+
     // Function to return the list of assigned villagers to a building
     public List<Villager> getAssignedVillagers() {
         return assignedVillagers;

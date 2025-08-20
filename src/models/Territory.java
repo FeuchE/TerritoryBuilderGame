@@ -39,10 +39,46 @@ public class Territory {
         return buildings.isEmpty();
     }
 
+    // Function to check if a territory has villagers
+    public boolean noVillagers() {
+        return villagers.isEmpty();
+    }
+
+    // Save selected building in a variable
+    int buildingChoice;
+
+    // Function to select a building
+    public void selectBuilding(Scanner scanner) {
+        System.out.println("\nAvailable Buildings: ");
+        // For loop to print all available buildings
+        for (int i = 0; i < buildings.size(); i++) {
+            System.out.println(String.format("%d. %s (%s)",
+                i + 1,
+                buildings.get(i).getName(),
+                buildings.get(i).getType()
+            ));
+        }
+
+        System.out.print("Choose building number: ");
+        try {
+            // Save selected building in a variable
+            buildingChoice = Integer.parseInt(scanner.nextLine()) - 1;
+            // Return error message if an invalid number is entered
+            if (buildingChoice < 0 || buildingChoice >= buildings.size()) {
+                System.out.println("You have entered an invalid building number.");
+                return;
+            }
+        // Return error message if an invalid input format is entered
+        } catch (NumberFormatException e) {
+            System.out.println("You have entered an invalid input. Please enter a number.");
+            return;
+        }
+    }
+
     // Function to assign a villager to a building
     public void assignVillagerToBuilding(Scanner scanner) {
         // IF statement to handle error of no villagers or buildings
-        if (villagers.isEmpty() || buildings.isEmpty()) {
+        if (noVillagers() || noBuildings()) {
             System.out.println("You need both buildings and villagers.");
             return;
         }
@@ -98,32 +134,7 @@ public class Territory {
             return;
         }
 
-        System.out.println("\nAvailable Buildings: ");
-        // For loop to print all available buildings
-        for (int i = 0; i < buildings.size(); i++) {
-            System.out.println(String.format("%d. %s (%s)",
-                i + 1,
-                buildings.get(i).getName(),
-                buildings.get(i).getType()
-            ));
-        }
-
-        System.out.print("Choose building number: ");
-        // Save selected building in a variable
-        int buildingChoice;
-        try {
-            // Save selected building in a variable
-            buildingChoice = Integer.parseInt(scanner.nextLine()) - 1;
-            // Return error message if an invalid number is entered
-            if (buildingChoice < 0 || buildingChoice >= buildings.size()) {
-                System.out.println("You have entered an invalid building number.");
-                return;
-            }
-        // Return error message if an invalid input format is entered
-        } catch (NumberFormatException e) {
-            System.out.println("You have entered an invalid input. Please enter a number.");
-            return;
-        }
+        selectBuilding(scanner);
 
         // Assign chosenVillager to the villager selected by the user
         Villager chosenVillager = unassignedVillagers.get(villagerChoice);
@@ -182,5 +193,100 @@ public class Territory {
                 producer.produceResources(manager);
             }
         }
+    }
+
+    // Function to delete a building from a territory
+    public void removeBuilding(Scanner scanner) {
+        // IF statement to check if there are buildings using noBuildings function
+        if (noBuildings()) {
+            System.out.println("There are no buildings to delete.");
+            return;
+        }
+
+        // Call select building function
+        selectBuilding(scanner);
+
+        // Record selected building before removing
+        Building removed = buildings.get(buildingChoice);
+
+        // For loop to unassign villagers from that building
+        for (Villager v : removed.getAssignedVillagers()) {
+            v.setAssigned(false);
+        }
+
+        // Remove the building from the territory
+        buildings.remove(buildingChoice);
+
+        // Print message to user to inform them the building has been deleted
+        System.out.println(String.format("%s (%s) has been deleted. All assigned villagers are now unassigned.",
+            removed.getName(),
+            removed.getType()
+        ));
+    }
+
+    // Function to delete a villager from a territory
+    public void removeVillager(Scanner scanner) {
+        // IF statement to check if there are villagers using noBuildings function
+        if (noVillagers()) {
+            System.out.println("There are no villagers to delete.");
+            return;
+        }
+
+        System.out.println("\nVillagers: ");
+        // For loop to print all villagers
+        for (int i = 0; i < villagers.size(); i++) {
+            // IF/ELSE statement to print a different message depending on the type of villager 
+            if (villagers.get(i).getType().equals("knight")) {
+                System.out.println(String.format("%d. %s",
+                    i + 1,
+                    villagers.get(i).toString()
+                ));
+            } else {
+                System.out.println(String.format("%d. %s (%s)",
+                    i + 1, 
+                    villagers.get(i).getName(),
+                    villagers.get(i).getType()
+                ));
+            }
+            
+        }
+
+        System.out.print("Choose villager number: ");
+        int villagerChoice;
+        try {
+            // Save selected villager in a variable
+            villagerChoice = Integer.parseInt(scanner.nextLine()) - 1;
+            // Return error message if an invalid number is entered
+            if (villagerChoice < 0 || villagerChoice >= villagers.size()) {
+                System.out.println("You have entered an invalid villager number.");
+                return;
+            }
+        // Return error message if an invalid input format is entered
+        } catch (NumberFormatException e) {
+            System.out.println("You have entered an invalid input. Please enter a number.");
+            return;
+        }
+
+        // Record selected villager before removing
+        Villager removed = villagers.get(villagerChoice);
+
+        // Unassign villager from their building (if assigned) using for loop and IF statement
+        for (Building b : buildings) {
+            if (b.getAssignedVillagers().contains(removed)) {
+                b.unassignVillager(removed);
+                break;
+            }
+        }
+
+        removed.setAssigned(false);
+
+        // Remove the villager from the territory
+        villagers.remove(villagerChoice);
+
+        // Print message to user to inform them the villager has been deleted
+        System.out.println(String.format("%s (%s) has been deleted.",
+            removed.getName(),
+            removed.getType()
+        ));
     }
 }
