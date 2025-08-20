@@ -34,6 +34,11 @@ public class Territory {
         villagers.add(villager);
     }
 
+    // Function to check if a territory has buildings
+    public boolean noBuildings() {
+        return buildings.isEmpty();
+    }
+
     // Function to assign a villager to a building
     public void assignVillagerToBuilding(Scanner scanner) {
         // IF statement to handle error of no villagers or buildings
@@ -166,6 +171,15 @@ public class Territory {
                     ));
                 }
                 
+            }
+        }
+    }
+
+    // Function to tell all buildings to produce resources
+    public void produceResources(ResourceManager manager) {
+        for (Building building : buildings) {
+            if (building instanceof ResourceProducer producer) {
+                producer.produceResources(manager);
             }
         }
     }
