@@ -67,7 +67,9 @@ public class Main {
             System.out.println("4. Show Territory Structure");
             System.out.println("5. Produce Resources");
             System.out.println("6. Show Resources");
-            System.out.println("7. Exit");
+            System.out.println("7. Delete Building");
+            System.out.println("8. Delete Villager");
+            System.out.println("9. Exit");
 
             // Ask user to select an option from the menu
             System.out.print("Please choose an option: ");
@@ -198,9 +200,21 @@ public class Main {
                     // Call printResources function from all building classes in the territory
                     resourceManager.printResources();
                     break;
-
+                
                 // Code block executed when user selects option 7
                 case 7:
+                    // Call removeBuilding function
+                    territory.removeBuilding(scanner);
+                    break;
+                
+                // Code block executed when user selects option 8
+                case 8:
+                    // Call removeVillager function
+                    territory.removeVillager(scanner);
+                    break;
+
+                // Code block executed when user selects option 9
+                case 9:
                     // Return message to user that the game has ended and thank them for playing
                     System.out.println("You have chosen to end the game, thank you for playing, see you next time!");
                     // Reassign the running boolean to false to end the loop
