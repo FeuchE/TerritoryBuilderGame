@@ -17,19 +17,13 @@ public class Main {
 
         // Creating the territory loop
         while (running) {
-            // Asking user to input territory name
-            System.out.println("Please enter the name of your territory: ");
+            // Ask user to input territory name and save the user input as territory name as a variable
+            String territoryName = getValidInput(scanner, "Please enter the name of your territory: ").toLowerCase();
+            String capitalisedTerritoryName = capitalise(territoryName);
 
-            // Save the user input as territory name as a variable
-            String territoryName = scanner.nextLine().toLowerCase();
-            String capitalisedTerritoryName = territoryName.substring(0, 1).toUpperCase() + territoryName.substring(1);
-
-            // Asking user to input territory type
-            System.out.println("Please enter the type of your territory you want to create (kingdom/dynasty): ");
-
-            // Save the user input as territory name as a variable
-            String territoryType = scanner.nextLine();
-            String capitalisedTerritoryType = territoryType.substring(0, 1).toUpperCase() + territoryType.substring(1);
+            // Ask user to input territory type and save the user input as territory name as a variable
+            String territoryType = getValidInput(scanner, "Please enter the type of your territory you want to create (kingdom/dynasty): ").toLowerCase();
+            String capitalisedTerritoryType = capitalise(territoryType);
 
             // Switch statement to create a new territory based on territory type
             territory = switch (territoryType) {
@@ -50,7 +44,7 @@ public class Main {
                 // Reassign the running boolean to false to end the loop
                 running = false;                        
             } else {
-                System.out.println("You have entered an invalid territory type.");
+                System.out.println("Error: You have entered an invalid territory type. Please try again.");
             }
         }   
 
@@ -80,27 +74,21 @@ public class Main {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
                 // Print message to user to explain their error
-                System.out.println("You have entered an invalid option. Please enter a number between 1 and 5.");
+                System.out.println("Error: You have entered an invalid option. Please enter a number between 1 and 5.");
                 continue;
             }
 
             // Switch statement
             switch (choice) {
                 // Code block executed when user selects option 1
-                case 1:
-                    // Ask user to input building type
-                    System.out.print("Please enter the building type (barracks/forge/farm): ");
+                case 1:                   
+                    // Ask user to input building type and save building type inputted as a variable
+                    String buildingType = getValidInput(scanner, "Please enter the building type (barracks/forge/farm): ").toLowerCase();
+                    String capitalisedBuildingType = capitalise(buildingType);
 
-                    // Save building type inputted as a variable
-                    String buildingType = scanner.nextLine().toLowerCase();
-                    String capitalisedBuildingType = buildingType.substring(0, 1).toUpperCase() + buildingType.substring(1);
-
-                    // Ask user to input building name
-                    System.out.print("Please enter the building name: ");
-
-                    // Save building name inputted as a variable
-                    String buildingName = scanner.nextLine().toLowerCase();
-                    String capitalisedBuildingName = buildingName.substring(0, 1).toUpperCase() + buildingName.substring(1);
+                    // Ask user to input building name and save building name inputted as a variable
+                    String buildingName = getValidInput(scanner, "Please enter the building name: ").toLowerCase();
+                    String capitalisedBuildingName = capitalise(buildingName);
 
                     // Switch statement to create a new building based on building type
                     Building building = switch (buildingType) {
@@ -120,25 +108,19 @@ public class Main {
                             capitalisedBuildingType
                         ));                        
                     } else {
-                        System.out.println("You have entered an invalid building type.");
+                        System.out.println("Error: You have entered an invalid building type. Please try again.");
                     }
                     break;
                 
                 // Code block executed when user selects option 2
                 case 2:
-                    // Ask user to input villager type
-                    System.out.print("Please enter the villager type (knight/blacksmith/farmer): ");
+                    // Ask user to input villager type and save villager type inputted as a variable
+                    String villagerType = getValidInput(scanner, "Please enter the villager type (knight/blacksmith/farmer): ").toLowerCase();
+                    String capitalisedVillagerType = capitalise(villagerType);
 
-                    // Save villager type inputted as a variable
-                    String villagerType = scanner.nextLine().toLowerCase();
-                    String capitalisedVillagerType = villagerType.substring(0, 1).toUpperCase() + villagerType.substring(1);
-
-                    // Ask user to input villager name
-                    System.out.print("Please enter the villager name: ");
-
-                    // Save villager name inputted as a variable
-                    String villagerName = scanner.nextLine().toLowerCase();
-                    String capitalisedVillagerName = villagerName.substring(0, 1).toUpperCase() + villagerName.substring(1);
+                    // Ask user to input villager name and save villager name inputted as a variable
+                    String villagerName = getValidInput(scanner, "Please enter the villager name: ").toLowerCase();
+                    String capitalisedVillagerName = capitalise(villagerName);
 
                     // Switch statement to create a new villager based on building type
                     Villager villager = switch (villagerType) {
@@ -154,9 +136,13 @@ public class Main {
                         territory.addVillager(villager);
                         // Print message to inform the user that their villager has been added
                         // IF/ELSE statement to print a different message depending on the type of villager
-                        if (villagerType.equals("knight")) {
-                            System.out.println(String.format("%s (Knight) [HP: 100, STA: 75, STR: 50, DEF: 25] has been added!",
-                                capitalisedVillagerName
+                        if (villager instanceof Knight knight) {
+                            System.out.println(String.format("%s (Knight) [HP: %d, STA: %d, STR: %d, DEF: %d] has been added!",
+                                capitalisedVillagerName,
+                                knight.getHealth(),
+                                knight.getStamina(),
+                                knight.getStrength(),
+                                knight.getDefense()
                             ));
                         } else {
                             System.out.println(String.format("%s (%s) has been added!",
@@ -166,7 +152,7 @@ public class Main {
                         }                                               
                     } else {
                         // Print message to user to explain their error
-                        System.out.println("You have entered an invalid villager type.");
+                        System.out.println("Error: You have entered an invalid villager type. Please try again.");
                     }
                     break;
 
@@ -191,7 +177,7 @@ public class Main {
                         // Print message to user to inform them the resources have been produced
                         System.out.println("Resources have been produced!");
                     } else {
-                        System.out.println("You have to create a building to produce resources.");
+                        System.out.println("Error: You have to create a building to produce resources.");
                     }
                     break;
 
@@ -224,8 +210,30 @@ public class Main {
                 // Code block executed when user enters an input that is not in the menu list
                 default:
                     // Print message to user to explain their error
-                    System.out.println("You have entered an invalid option. Please enter a number between 1 and 5.");
+                    System.out.println("Error: You have entered an invalid option. Please enter a number between 1 and 5.");
             }
         }
+    }
+
+    // Function to ensure users enters an input for a name
+    private static String getValidInput(Scanner scanner, String prompt) {
+        String input;
+        while (true) {
+            System.out.print(prompt);
+            input = scanner.nextLine().trim();
+            // IF statement to check if the input is empty
+            if (!input.isEmpty()) {
+                return input;
+            }
+            System.out.println("Error: You must enter a name. Please try again.");
+        }
+    }
+
+    // Function to capitalise names
+    private static String capitalise(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+        return text.substring(0, 1).toUpperCase() + text.substring(1);
     }
 }

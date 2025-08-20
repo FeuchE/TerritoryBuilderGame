@@ -26,7 +26,7 @@ public class Knight extends Villager {
     @Override
     // Function to print a knights attributes as a string
     public String toString() {
-        return String.format("%s (Knight) [HP: %s, STA: %s, STR: %s, DEF: %s]",
+        return String.format("%s (Knight) [HP: %d, STA: %d, STR: %d, DEF: %d]",
             super.getName(),
             health,
             stamina,

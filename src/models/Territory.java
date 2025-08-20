@@ -65,12 +65,12 @@ public class Territory {
             buildingChoice = Integer.parseInt(scanner.nextLine()) - 1;
             // Return error message if an invalid number is entered
             if (buildingChoice < 0 || buildingChoice >= buildings.size()) {
-                System.out.println("You have entered an invalid building number.");
+                System.out.println("Error: You have entered an invalid building number. Please try again.");
                 return;
             }
         // Return error message if an invalid input format is entered
         } catch (NumberFormatException e) {
-            System.out.println("You have entered an invalid input. Please enter a number.");
+            System.out.println("Error: You have entered an invalid input. Please enter a number.");
             return;
         }
     }
@@ -79,7 +79,7 @@ public class Territory {
     public void assignVillagerToBuilding(Scanner scanner) {
         // IF statement to handle error of no villagers or buildings
         if (noVillagers() || noBuildings()) {
-            System.out.println("You need both buildings and villagers.");
+            System.out.println("Error: You need both buildings and villagers.");
             return;
         }
 
@@ -95,7 +95,7 @@ public class Territory {
 
         // IF statement to print error message if all villagers are currently assigned to buildings
         if (unassignedVillagers.isEmpty()) {
-            System.out.println("All villagers are already assigned to buildings. Please chose another option.");
+            System.out.println("Error: All villagers are already assigned to buildings. Please chose another option.");
             return;
         }
 
@@ -125,12 +125,12 @@ public class Territory {
             villagerChoice = Integer.parseInt(scanner.nextLine()) - 1;
             // Return error message if an invalid number is entered
             if (villagerChoice < 0 || villagerChoice >= unassignedVillagers.size()) {
-                System.out.println("You have entered an invalid villager number.");
+                System.out.println("Error: You have entered an invalid villager number. Please try again.");
                 return;
             }
         // Return error message if an invalid input format is entered
         } catch (NumberFormatException e) {
-            System.out.println("You have entered an invalid input. Please enter a number.");
+            System.out.println("Error: You have entered an invalid input. Please enter a number.");
             return;
         }
 
@@ -142,14 +142,34 @@ public class Territory {
         // Assign chosenBuilding to the building selected by the user
         Building chosenBuilding = buildings.get(buildingChoice);
 
-        // Assign villager to the building
-        chosenBuilding.assignVillager(chosenVillager);
+        // Check if villager type is allowed in this building type
+        if (isValidAssignment(chosenVillager, chosenBuilding)) {
+            chosenBuilding.assignVillager(chosenVillager);
+            System.out.println(String.format("%s (%s) has been assigned to %s (%s)",
+                chosenVillager.getName(),
+                chosenVillager.getType(),
+                chosenBuilding.getName(),
+                chosenBuilding.getType()
+            ));
+        } else {
+            System.out.println(String.format("Error: A %s cannot be assigned to a %s.",
+                chosenVillager.getType(),
+                chosenBuilding.getType()
+            ));
+        }
+    }
+    
+    // Function to check if a villager type is assigned to the correct building type
+    private boolean isValidAssignment(Villager villager, Building building) {
+        String villagerType = villager.getType().toLowerCase();
+        String buildingType = building.getType().toLowerCase();
 
-        // Print message to user informing them that the villager is assigned to the building
-        System.out.println(String.format("%s has been assigned to %s",
-            chosenVillager.getName(),
-            chosenBuilding.getName()
-        ));
+        return switch (villagerType) {
+            case "farmer" -> buildingType.equals("farm");
+            case "blacksmith" -> buildingType.equals("forge");
+            case "knight" -> buildingType.equals("barracks");
+            default -> false;
+        };
     }
 
     // Function to print territory structure
@@ -171,9 +191,13 @@ public class Territory {
             // For loop printing villagers within the building
             for (Villager v : b.getAssignedVillagers()) {
                 // IF/ELSE statement to print a different message depending on the type of villager
-                if (v.getType().equals("knight")) {
-                    System.out.println(String.format("    Villager: %s",
-                        v.toString()
+                if (v instanceof Knight knight) {
+                    System.out.println(String.format("    Villager: %s (Knight) [HP: %d, STA: %d, STR: %d, DEF: %d]",
+                        v.getName(),
+                        knight.getHealth(),
+                        knight.getStamina(),
+                        knight.getStrength(),
+                        knight.getDefense()
                     ));
                 } else {
                     System.out.println(String.format("    Villager: %s (%s)",
@@ -199,7 +223,7 @@ public class Territory {
     public void removeBuilding(Scanner scanner) {
         // IF statement to check if there are buildings using noBuildings function
         if (noBuildings()) {
-            System.out.println("There are no buildings to delete.");
+            System.out.println("Error: There are no buildings to delete.");
             return;
         }
 
@@ -228,7 +252,7 @@ public class Territory {
     public void removeVillager(Scanner scanner) {
         // IF statement to check if there are villagers using noBuildings function
         if (noVillagers()) {
-            System.out.println("There are no villagers to delete.");
+            System.out.println("Error: There are no villagers to delete.");
             return;
         }
 
@@ -258,12 +282,12 @@ public class Territory {
             villagerChoice = Integer.parseInt(scanner.nextLine()) - 1;
             // Return error message if an invalid number is entered
             if (villagerChoice < 0 || villagerChoice >= villagers.size()) {
-                System.out.println("You have entered an invalid villager number.");
+                System.out.println("Error: You have entered an invalid villager number. Please try again.");
                 return;
             }
         // Return error message if an invalid input format is entered
         } catch (NumberFormatException e) {
-            System.out.println("You have entered an invalid input. Please enter a number.");
+            System.out.println("Error: You have entered an invalid input. Please enter a number.");
             return;
         }
 
