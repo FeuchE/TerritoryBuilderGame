@@ -8,8 +8,9 @@ public class Main {
 
         System.out.println("Welcome to my territory builder game!");
 
-        // Declare territory here so it's visible everywhere in main()
+        // Declare territory and resource manager here so it's visible everywhere in main()
         Territory territory = null;
+        ResourceManager resourceManager = null;
 
         // Initially set running boolean to true so the create a territory loop runs
         boolean running = true;
@@ -39,6 +40,8 @@ public class Main {
 
             // IF/ELSE statement to check if user has entered a valid territory type
             if (territory != null) {
+                // Reassign resource manager to the new territory
+                resourceManager = new ResourceManager();
                 // Print message to inform the user that their building has been added
                 System.out.println(String.format("%s (%s) has been created!",
                     capitalisedTerritoryName,
@@ -62,7 +65,9 @@ public class Main {
             System.out.println("2. Add Villager");
             System.out.println("3. Assign Villager to Building");
             System.out.println("4. Show Territory Structure");
-            System.out.println("5. Exit");
+            System.out.println("5. Produce Resources");
+            System.out.println("6. Show Resources");
+            System.out.println("7. Exit");
 
             // Ask user to select an option from the menu
             System.out.print("Please choose an option: ");
@@ -174,9 +179,28 @@ public class Main {
                     // Call printStructure function from the territory class
                     territory.printStructure();
                     break;
-                
+
                 // Code block executed when user selects option 5
                 case 5:
+                    // IF statement to check if the user has created buildings yet
+                    if (!territory.noBuildings()) {
+                        // Call produceResources function from all building classes in the territory
+                        territory.produceResources(resourceManager);
+                        // Print message to user to inform them the resources have been produced
+                        System.out.println("Resources have been produced!");
+                    } else {
+                        System.out.println("You have to create a building to produce resources.");
+                    }
+                    break;
+
+                // Code block executed when user selects option 6
+                case 6:
+                    // Call printResources function from all building classes in the territory
+                    resourceManager.printResources();
+                    break;
+
+                // Code block executed when user selects option 7
+                case 7:
                     // Return message to user that the game has ended and thank them for playing
                     System.out.println("You have chosen to end the game, thank you for playing, see you next time!");
                     // Reassign the running boolean to false to end the loop
