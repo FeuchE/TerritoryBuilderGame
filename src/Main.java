@@ -225,7 +225,7 @@ public class Main {
             if (!input.isEmpty()) {
                 return input;
             }
-            System.out.println("Error: You must enter a name. Please try again.");
+            System.out.println("Error: You must enter an input. Please try again.");
         }
     }
 
