@@ -61,9 +61,10 @@ public class Main {
             System.out.println("4. Show Territory Structure");
             System.out.println("5. Produce Resources");
             System.out.println("6. Show Resources");
-            System.out.println("7. Delete Building");
-            System.out.println("8. Delete Villager");
-            System.out.println("9. Exit");
+            System.out.println("7. Modify Knight Stats");
+            System.out.println("8. Delete Building");
+            System.out.println("9. Delete Villager");
+            System.out.println("10. Exit");
 
             // Ask user to select an option from the menu
             System.out.print("Please choose an option: ");
@@ -74,7 +75,7 @@ public class Main {
                 choice = Integer.parseInt(scanner.nextLine());
             } catch (NumberFormatException e) {
                 // Print message to user to explain their error
-                System.out.println("Error: You have entered an invalid option. Please enter a number between 1 and 5.");
+                System.out.println("Error: You have entered an invalid option. Please enter a number between 1 and 10.");
                 continue;
             }
 
@@ -124,7 +125,7 @@ public class Main {
 
                     // Switch statement to create a new villager based on building type
                     Villager villager = switch (villagerType) {
-                        case "knight" -> new Knight(villagerName, 100, 75, 50, 25);
+                        case "knight" -> new Knight(villagerName, 25, 25, 25, 25);
                         case "blacksmith" -> new Blacksmith(villagerName);
                         case "farmer" -> new Farmer(villagerName);
                         default -> null;
@@ -189,18 +190,24 @@ public class Main {
                 
                 // Code block executed when user selects option 7
                 case 7:
+                    // Call modifyKnightStats function
+                    territory.modifyKnightStats(scanner);
+                    break;
+                
+                // Code block executed when user selects option 7
+                case 8:
                     // Call removeBuilding function
                     territory.removeBuilding(scanner);
                     break;
                 
                 // Code block executed when user selects option 8
-                case 8:
+                case 9:
                     // Call removeVillager function
                     territory.removeVillager(scanner);
                     break;
 
                 // Code block executed when user selects option 9
-                case 9:
+                case 10:
                     // Return message to user that the game has ended and thank them for playing
                     System.out.println("You have chosen to end the game, thank you for playing, see you next time!");
                     // Reassign the running boolean to false to end the loop

@@ -102,12 +102,17 @@ public class Territory {
         System.out.println("\nAvailable Villagers: ");
         // For loop to print all available villagers
         for (int i = 0; i < unassignedVillagers.size(); i++) {
+            Villager v = unassignedVillagers.get(i);
             // IF/ELSE statement to print a different message depending on the type of villager 
-            if (unassignedVillagers.get(i).getType().equals("knight")) {
-                System.out.println(String.format("%d. %s",
-                    i + 1,
-                    unassignedVillagers.get(i).toString()
-                ));
+            if (v instanceof Knight knight) {
+                System.out.println(String.format("%d. %s (Knight) [HP: %d, STA: %d, STR: %d, DEF: %d]",
+                    i + 1,        
+                    knight.getName(),
+                    knight.getHealth(),
+                    knight.getStamina(),
+                    knight.getStrength(),
+                    knight.getDefense()
+                    ));
             } else {
                 System.out.println(String.format("%d. %s (%s)",
                     i + 1, 
@@ -219,6 +224,95 @@ public class Territory {
         }
     }
 
+    // Function to modify a knight's stats
+    public void modifyKnightStats(Scanner scanner) {
+        // Filter knights from villagers into a new list
+        List<Knight> knights = new ArrayList<>();
+        for (Villager v : villagers) {
+            if (v instanceof Knight knight) {
+                knights.add(knight);
+            }
+        }
+
+        // Display error message if there are no knights
+        if (knights.isEmpty()) {
+            System.out.println("Error: There are no knights in this territory.");
+            return;
+        }
+
+        // Display list of knights
+        System.out.println("\nAvailable Knights:");
+        for (int i = 0; i < knights.size(); i++) {
+            Knight k = knights.get(i);
+            System.out.println(String.format("%d. %s (Knight) [HP: %d, STA: %d, STR: %d, DEF: %d]",
+                i + 1,
+                k.getName(),
+                k.getHealth(),
+                k.getStamina(),
+                k.getStrength(),
+                k.getDefense()
+            ));
+        }
+
+        // Ask user to chose a knight
+        System.out.println("Chose knight number: ");
+        int choice;
+        // Error handling
+        try {
+            choice = Integer.parseInt(scanner.nextLine()) - 1;
+            if (choice < 0 || choice >= knights.size()) {
+                System.out.println("Error: Invalid choice. Please try again.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Error: Please enter a number.");
+            return;
+        }
+
+        // Store user chose as variable
+        Knight chosenKnight = knights.get(choice);
+
+        // While loop until valid stats are entered
+        while (true) {
+            try {
+                System.out.println("\nA knight's total stats cannot exceed 100");
+                System.out.println("\nEnter new stats for " + chosenKnight.getName() + ":");
+
+                System.out.print("Health (" + chosenKnight.getHealth() + "): ");
+                int newHealth = Integer.parseInt(scanner.nextLine());
+
+                System.out.print("Stamina (" + chosenKnight.getStamina() + "): ");
+                int newStamina = Integer.parseInt(scanner.nextLine());
+
+                System.out.print("Strength (" + chosenKnight.getStrength() + "): ");
+                int newStrength = Integer.parseInt(scanner.nextLine());
+
+                System.out.print("Defense (" + chosenKnight.getDefense() + "): ");
+                int newDefense = Integer.parseInt(scanner.nextLine());
+
+                int total = newHealth + newStamina + newStrength + newDefense;
+
+                // IF statement to check if total new stats exceed 100
+                if (total > 100) {
+                    System.out.println("Error: Total stats cannot exceed 100. Current total = " + total + ". Please try again.");
+                    continue;
+                }
+
+                // If user input is valid then update knight stats
+                chosenKnight.setHealth(newHealth);
+                chosenKnight.setStamina(newStamina);                
+                chosenKnight.setStrength(newStrength);                
+                chosenKnight.setDefense(newDefense);
+
+                // Print message to inform user stats updated successfully
+                System.out.println("Knight stats updated successfully!");
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter valid numbers for stats.");
+            }
+        }
+    }
+
     // Function to delete a building from a territory
     public void removeBuilding(Scanner scanner) {
         // IF statement to check if there are buildings using noBuildings function
@@ -259,12 +353,17 @@ public class Territory {
         System.out.println("\nVillagers: ");
         // For loop to print all villagers
         for (int i = 0; i < villagers.size(); i++) {
+            Villager v = villagers.get(i);
             // IF/ELSE statement to print a different message depending on the type of villager 
-            if (villagers.get(i).getType().equals("knight")) {
-                System.out.println(String.format("%d. %s",
-                    i + 1,
-                    villagers.get(i).toString()
-                ));
+            if (v instanceof Knight knight) {
+                System.out.println(String.format("%d. %s (Knight) [HP: %d, STA: %d, STR: %d, DEF: %d]",
+                    i + 1,        
+                    knight.getName(),
+                    knight.getHealth(),
+                    knight.getStamina(),
+                    knight.getStrength(),
+                    knight.getDefense()
+                    ));
             } else {
                 System.out.println(String.format("%d. %s (%s)",
                     i + 1, 
