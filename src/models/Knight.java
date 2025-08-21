@@ -17,11 +17,17 @@ public class Knight extends Villager {
         this.defense = defense;
     }
 
-    // Functions to return attribute values
+    // Getters
     public int getHealth() { return health; }
     public int getStamina() { return stamina; }
     public int getStrength() { return strength; }
     public int getDefense() { return defense; }
+
+    // Setters
+    public void setHealth(int health) { this.health = health; }
+    public void setStamina(int stamina) { this.stamina = stamina; }
+    public void setStrength(int strength) { this.strength = strength; }
+    public void setDefense(int defense) { this.defense = defense; }
 
     @Override
     // Function to print a knights attributes as a string
