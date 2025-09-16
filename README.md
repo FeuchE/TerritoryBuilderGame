@@ -38,7 +38,7 @@ This turn-based strategy game delivers a streamlined system where players build 
 
 ## 🚧 Challenges
 
-### What did we struggle with?
+### What did I struggle with?
 
 **1. Game play**
 - **Challenge**: Managing dynamic territory structures with villagers, buildings, and resources. 
@@ -60,7 +60,7 @@ This turn-based strategy game delivers a streamlined system where players build 
 
 ## 🏆 Accomplishments
 
-### What did we learn?
+### What did I learn?
 
 **✅Technical Skills:**
 - Built a fully functional, object-oriented game backend in Java with clean modular design.
