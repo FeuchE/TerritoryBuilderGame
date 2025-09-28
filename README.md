@@ -16,12 +16,10 @@ A text-based resource management game demonstrating object-oriented design and i
 ## 📣 The pitch
 
 **The problem:**
-Turn-based strategy games often hide complexity behind pre-built engines, leaving little room for demonstrating raw programming and systems design skills. 
 Strategy fans often want the depth of managing resources, characters, and combat, but without overwhelming complexity.  
 
 **The solution:**
-I built the game from scratch in Java, focusing on object-oriented principles to design flexible systems for villagers, buildings, territories, and resources, making the logic transparent and customisable. 
-This turn-based strategy game delivers a streamlined system where players build territories, assign villagers, and manage resources, while still offering tactical depth through customizable knight stats and role-based assignments.  
+This strategy game delivers a streamlined system where players build territories, assign villagers, and manage resources, while still offering tactical depth through customisable knight stats and role-based assignments.    
 
 **The target audience:**
 - Demographic: 10-40 year old retro game lovers.  
